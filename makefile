@@ -10,7 +10,7 @@ OBJ_DIR := obj
 INC_DIR := include
 
 NR_DPUS ?=64
-NR_TASKLETS ?= 16
+NR_TASKLETS ?= 2
 GRAPH ?= WV
 PATTERN ?= CLIQUE3
 
@@ -22,7 +22,7 @@ COMMON_LFLAGS := -DNR_TASKLETS=${NR_TASKLETS}
 HOST_LFLAGS := ${COMMON_LFLAGS} `dpu-pkg-config --libs dpu`
 DPU_LFLAGS := ${COMMON_LFLAGS}
 
-INC_FILE := ${INC_DIR}/common.h ${INC_DIR}/cyclecount.h ${INC_DIR}/timer.h ${INC_DIR}/dpu_mine.h
+INC_FILE := ${INC_DIR}/common.h ${INC_DIR}/cyclecount.h ${INC_DIR}/timer.h ${INC_DIR}/dpu_mine.h ${INC_DIR}/fifo.h
 
 .PHONY: all all_before host dpu clean test test_single test_all
 
@@ -33,6 +33,7 @@ all_before:
 	@mkdir -p ${OBJ_DIR}
 	@mkdir -p ${OBJ_DIR}/${HOST_DIR}
 	@mkdir -p ${OBJ_DIR}/${DPU_DIR}
+	@mkdir -p ${OBJ_DIR}/${FIFO_DIR}
 	@mkdir -p result
 
 ${BUILD_DIR}/host: ${OBJ_DIR}/${HOST_DIR}/main.o ${OBJ_DIR}/${HOST_DIR}/partition.o ${OBJ_DIR}/${HOST_DIR}/mine.o ${OBJ_DIR}/${HOST_DIR}/set_op.o ${OBJ_DIR}/${HOST_DIR}/heap.o
